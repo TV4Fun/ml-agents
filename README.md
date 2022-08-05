@@ -1,5 +1,7 @@
 <img src="docs/images/image-banner.png" align="middle" width="3000"/>
 
+## **Please note: The official GitHub repo has not been updated with the latest changes. This branch includes updates that were only released on PyPi. I do not own this code and do not provide any warranty for it.**
+
 # Unity ML-Agents Toolkit
 
 [![docs badge](https://img.shields.io/badge/docs-reference-blue.svg)](https://github.com/Unity-Technologies/ml-agents/tree/release_19_docs/docs/)
@@ -52,6 +54,7 @@ to get started with the latest release of ML-Agents.**
 
 The table below lists all our releases, including our `main` branch which is
 under active development and may be unstable. A few helpful guidelines:
+
 - The [Versioning page](docs/Versioning.md) overviews how we manage our GitHub
   releases and the versioning process for each of the ML-Agents components.
 - The [Releases page](https://github.com/Unity-Technologies/ml-agents/releases)
@@ -64,11 +67,15 @@ under active development and may be unstable. A few helpful guidelines:
 - The `com.unity.ml-agents` package is [verified](https://docs.unity3d.com/2020.1/Documentation/Manual/pack-safe.html)
   for Unity 2020.1 and later. Verified packages releases are numbered 1.0.x.
 
-| **Version** | **Release Date** | **Source** | **Documentation** | **Download** | **Python Package** | **Unity Package** |
+| **Version** | **Release Date** | **Source** | **Documentation** | **Download** | **Python Package** | **Unity
+Package** |
 |:-------:|:------:|:-------------:|:-------:|:------------:|:------------:|:------------:|
-| **main (unstable)** | -- | [source](https://github.com/Unity-Technologies/ml-agents/tree/main) | [docs](https://github.com/Unity-Technologies/ml-agents/tree/main/docs/Readme.md) | [download](https://github.com/Unity-Technologies/ml-agents/archive/main.zip) | -- | -- |
-| **Release 19** | **January 14, 2022** | **[source](https://github.com/Unity-Technologies/ml-agents/tree/release_19)** | **[docs](https://github.com/Unity-Technologies/ml-agents/tree/release_19_docs/docs/Readme.md)** | **[download](https://github.com/Unity-Technologies/ml-agents/archive/release_19.zip)** | **[0.28.0](https://pypi.org/project/mlagents/0.28.0/)** | **[2.2.1](https://docs.unity3d.com/Packages/com.unity.ml-agents@2.2/manual/index.html)** |
-| **Verified Package 1.0.8** | **May 26, 2021** | **[source](https://github.com/Unity-Technologies/ml-agents/tree/com.unity.ml-agents_1.0.8)** | **[docs](https://github.com/Unity-Technologies/ml-agents/blob/release_2_verified_docs/docs/Readme.md)** | **[download](https://github.com/Unity-Technologies/ml-agents/archive/com.unity.ml-agents_1.0.8.zip)** | **[0.16.1](https://pypi.org/project/mlagents/0.16.1/)** | **[1.0.8](https://docs.unity3d.com/Packages/com.unity.ml-agents@1.0/manual/index.html)** |
+| **main (
+unstable)** | -- | [source](https://github.com/Unity-Technologies/ml-agents/tree/main) | [docs](https://github.com/Unity-Technologies/ml-agents/tree/main/docs/Readme.md) | [download](https://github.com/Unity-Technologies/ml-agents/archive/main.zip) | -- | -- |
+| **Release 19** | **January 14,
+2022** | **[source](https://github.com/Unity-Technologies/ml-agents/tree/release_19)** | **[docs](https://github.com/Unity-Technologies/ml-agents/tree/release_19_docs/docs/Readme.md)** | **[download](https://github.com/Unity-Technologies/ml-agents/archive/release_19.zip)** | **[0.28.0](https://pypi.org/project/mlagents/0.28.0/)** | **[2.2.1](https://docs.unity3d.com/Packages/com.unity.ml-agents@2.2/manual/index.html)** |
+| **Verified Package 1.0.8** | **May 26,
+2021** | **[source](https://github.com/Unity-Technologies/ml-agents/tree/com.unity.ml-agents_1.0.8)** | **[docs](https://github.com/Unity-Technologies/ml-agents/blob/release_2_verified_docs/docs/Readme.md)** | **[download](https://github.com/Unity-Technologies/ml-agents/archive/com.unity.ml-agents_1.0.8.zip)** | **[0.16.1](https://pypi.org/project/mlagents/0.16.1/)** | **[1.0.8](https://docs.unity3d.com/Packages/com.unity.ml-agents@1.0/manual/index.html)** |
 
 If you are a researcher interested in a discussion of Unity as an AI platform,
 see a pre-print of our
@@ -166,8 +173,8 @@ using the ML-Agents Toolkit or have a specific feature request, please
 
 Please tell us which samples you would like to see shipped with the ML-Agents Unity
 package by replying to
-[this forum thread](https://forum.unity.com/threads/feedback-wanted-shipping-sample-s-with-the-ml-agents-package.1073468/).
-
+[this forum thread](https://forum.unity.com/threads/feedback-wanted-shipping-sample-s-with-the-ml-agents-package.1073468/)
+.
 
 Your opinion matters a great deal to us. Only by hearing your thoughts on the
 Unity ML-Agents Toolkit can we continue to improve and grow. Please take a few
