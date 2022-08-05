@@ -48,7 +48,6 @@ setup(
         "Intended Audience :: Developers",
         "Topic :: Scientific/Engineering :: Artificial Intelligence",
         "License :: OSI Approved :: Apache Software License",
-        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
     ],
@@ -79,7 +78,7 @@ setup(
         'pypiwin32==223;platform_system=="Windows"',
         "importlib_metadata; python_version<'3.8'",
     ],
-    python_requires=">=3.6.1",
+    python_requires=">=3.7.2,<3.10.0",
     entry_points={
         "console_scripts": [
             "mlagents-learn=mlagents.trainers.learn:main",
@@ -90,5 +89,6 @@ setup(
             "default=mlagents.plugins.stats_writer:get_default_stats_writers"
         ],
     },
-    cmdclass={"verify": VerifyVersionCommand},
+    # TODO: Remove this once mypy stops having spurious setuptools issues.
+    cmdclass={"verify": VerifyVersionCommand},  # type: ignore
 )
