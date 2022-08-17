@@ -3,21 +3,20 @@
 #endif
 
 #if MLA_SUPPORTED_TRAINING_PLATFORM
-using Grpc.Core;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
+using Google.Protobuf;
+using Grpc.Core;
 using Unity.MLAgents.Actuators;
+using Unity.MLAgents.Analytics;
 using Unity.MLAgents.CommunicatorObjects;
 using Unity.MLAgents.Sensors;
 using Unity.MLAgents.SideChannels;
-using Google.Protobuf;
-
-using Unity.MLAgents.Analytics;
+using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Unity.MLAgents
 {
@@ -33,7 +32,10 @@ namespace Unity.MLAgents
         List<string> m_BehaviorNames = new List<string>();
         bool m_NeedCommunicateThisStep;
         ObservationWriter m_ObservationWriter = new ObservationWriter();
-        Dictionary<string, SensorShapeValidator> m_SensorShapeValidators = new Dictionary<string, SensorShapeValidator>();
+
+        Dictionary<string, SensorShapeValidator> m_SensorShapeValidators =
+            new Dictionary<string, SensorShapeValidator>();
+
         Dictionary<string, List<int>> m_OrderedAgentsRequestingDecisions = new Dictionary<string, List<int>>();
 
         /// The current UnityRLOutput to be sent when all the brains queried the communicator
@@ -50,6 +52,7 @@ namespace Unity.MLAgents
 
         /// The Unity to External client.
         UnityToExternalProto.UnityToExternalProtoClient m_Client;
+
         Channel m_Channel;
 
         /// <summary>
@@ -59,12 +62,12 @@ namespace Unity.MLAgents
         {
         }
 
-#region Initialization
+        #region Initialization
 
         internal static bool CheckCommunicationVersionsAreCompatible(
             string unityCommunicationVersion,
             string pythonApiVersion
-            )
+        )
         {
             var unityVersion = new Version(unityCommunicationVersion);
             var pythonVersion = new Version(pythonApiVersion);
@@ -84,6 +87,7 @@ namespace Unity.MLAgents
                 // If a feature is used in Unity but not supported in the trainer,
                 // we will warn at the point it's used. Don't warn here to avoid noise.
             }
+
             return true;
         }
 
@@ -122,7 +126,6 @@ namespace Unity.MLAgents
             {
                 if (ex is RpcException rpcException)
                 {
-
                     switch (rpcException.Status.StatusCode)
                     {
                         case StatusCode.Unavailable:
@@ -132,7 +135,8 @@ namespace Unity.MLAgents
                             // We don't currently set a deadline for connection, but likely will in the future.
                             break;
                         default:
-                            Debug.Log($"Unexpected gRPC exception when trying to initialize communication: {rpcException}");
+                            Debug.Log(
+                                $"Unexpected gRPC exception when trying to initialize communication: {rpcException}");
                             break;
                     }
                 }
@@ -140,6 +144,7 @@ namespace Unity.MLAgents
                 {
                     Debug.Log($"Unexpected exception when trying to initialize communication: {ex}");
                 }
+
                 initParametersOut = new UnityRLInitParameters();
                 NotifyQuitAndShutDownChannel();
                 return false;
@@ -203,6 +208,7 @@ namespace Unity.MLAgents
             {
                 return;
             }
+
             m_BehaviorNames.Add(brainKey);
             m_CurrentUnityRlOutput.AgentInfos.Add(
                 brainKey,
@@ -235,6 +241,7 @@ namespace Unity.MLAgents
                 m_IsOpen = false;
                 NotifyQuitAndShutDownChannel();
             }
+
             return result.UnityInput;
         }
 
@@ -251,9 +258,9 @@ namespace Unity.MLAgents
             }
         }
 
-#endregion
+        #endregion
 
-#region Destruction
+        #region Destruction
 
         /// <summary>
         /// Close the communicator gracefully on both sides of the communication.
@@ -276,38 +283,39 @@ namespace Unity.MLAgents
             }
         }
 
-#endregion
+        #endregion
 
-#region Sending Events
+        #region Sending Events
 
         void SendCommandEvent(CommandProto command)
         {
             switch (command)
             {
                 case CommandProto.Quit:
-                    {
-                        NotifyQuitAndShutDownChannel();
-                        return;
-                    }
+                {
+                    NotifyQuitAndShutDownChannel();
+                    return;
+                }
                 case CommandProto.Reset:
+                {
+                    foreach (var brainName in m_OrderedAgentsRequestingDecisions.Keys)
                     {
-                        foreach (var brainName in m_OrderedAgentsRequestingDecisions.Keys)
-                        {
-                            m_OrderedAgentsRequestingDecisions[brainName].Clear();
-                        }
-                        ResetCommandReceived?.Invoke();
-                        return;
+                        m_OrderedAgentsRequestingDecisions[brainName].Clear();
                     }
+
+                    ResetCommandReceived?.Invoke();
+                    return;
+                }
                 default:
-                    {
-                        return;
-                    }
+                {
+                    return;
+                }
             }
         }
 
-#endregion
+        #endregion
 
-#region Sending and retreiving data
+        #region Sending and retreiving data
 
         public void DecideBatch()
         {
@@ -315,6 +323,7 @@ namespace Unity.MLAgents
             {
                 return;
             }
+
             m_NeedCommunicateThisStep = false;
 
             SendBatchedMessageHelper();
@@ -348,6 +357,7 @@ namespace Unity.MLAgents
                         agentInfoProto.Observations.Add(obsProto);
                     }
                 }
+
                 m_CurrentUnityRlOutput.AgentInfos[behaviorName].Value.Add(agentInfoProto);
             }
 
@@ -356,14 +366,17 @@ namespace Unity.MLAgents
             {
                 m_OrderedAgentsRequestingDecisions[behaviorName] = new List<int>();
             }
+
             if (!info.done)
             {
                 m_OrderedAgentsRequestingDecisions[behaviorName].Add(info.episodeId);
             }
+
             if (!m_LastActionsReceived.ContainsKey(behaviorName))
             {
                 m_LastActionsReceived[behaviorName] = new Dictionary<int, ActionBuffers>();
             }
+
             m_LastActionsReceived[behaviorName][info.episodeId] = ActionBuffers.Empty;
             if (info.done)
             {
@@ -431,6 +444,7 @@ namespace Unity.MLAgents
                     }
                 }
             }
+
             foreach (var brainName in m_OrderedAgentsRequestingDecisions.Keys)
             {
                 m_OrderedAgentsRequestingDecisions[brainName].Clear();
@@ -446,6 +460,7 @@ namespace Unity.MLAgents
                     return m_LastActionsReceived[behaviorName][agentId];
                 }
             }
+
             return ActionBuffers.Empty;
         }
 
@@ -577,7 +592,7 @@ namespace Unity.MLAgents
             }
         }
 
-#endregion
+        #endregion
 
 #if UNITY_EDITOR
         /// <summary>

@@ -84,6 +84,7 @@ namespace Unity.MLAgents.Extensions.Sensors
             {
                 numWritten += jointExtractor.Write(m_Settings, writer, numWritten);
             }
+
             return numWritten;
         }
 

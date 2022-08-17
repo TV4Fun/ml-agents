@@ -1,13 +1,12 @@
 using System;
-using UnityEngine;
 using NUnit.Framework;
 using Unity.MLAgents.Extensions.Sensors;
+using UnityEngine;
 
 namespace Unity.MLAgents.Extensions.Tests.Sensors
 {
     public class PoseExtractorTests
     {
-
         class BasicPoseExtractor : PoseExtractor
         {
             protected internal override Pose GetPoseAt(int index)
@@ -88,6 +87,7 @@ namespace Unity.MLAgents.Extensions.Tests.Sensors
         class ChainPoseExtractor : PoseExtractor
         {
             public Vector3 offset;
+
             public ChainPoseExtractor(int size)
             {
                 var parents = new int[size];
@@ -95,6 +95,7 @@ namespace Unity.MLAgents.Extensions.Tests.Sensors
                 {
                     parents[i] = i - 1;
                 }
+
                 Setup(parents);
             }
 
@@ -139,10 +140,11 @@ namespace Unity.MLAgents.Extensions.Tests.Sensors
                 {
                     var expectedModelTranslation = new Vector3(modelPoseIndex, modelPoseIndex, modelPoseIndex);
                     Assert.IsTrue(expectedModelTranslation == modelSpace.position);
-
                 }
+
                 modelPoseIndex++;
             }
+
             Assert.AreEqual(size, modelPoseIndex);
 
             var localPoseIndex = 0;
@@ -156,11 +158,13 @@ namespace Unity.MLAgents.Extensions.Tests.Sensors
                 else
                 {
                     var expectedLocalTranslation = new Vector3(1, 1, 1);
-                    Assert.IsTrue(expectedLocalTranslation == localSpace.position, $"{expectedLocalTranslation} != {localSpace.position}");
+                    Assert.IsTrue(expectedLocalTranslation == localSpace.position,
+                        $"{expectedLocalTranslation} != {localSpace.position}");
                 }
 
                 localPoseIndex++;
             }
+
             Assert.AreEqual(size, localPoseIndex);
         }
 
@@ -211,6 +215,7 @@ namespace Unity.MLAgents.Extensions.Tests.Sensors
                 {
                     parents[i] = i;
                 }
+
                 Setup(parents);
             }
         }
@@ -223,7 +228,6 @@ namespace Unity.MLAgents.Extensions.Tests.Sensors
                 var unused = new BadPoseExtractor();
             });
         }
-
     }
 
     public class PoseExtensionTests
@@ -244,6 +248,5 @@ namespace Unity.MLAgents.Extensions.Tests.Sensors
 
             Assert.IsTrue(Pose.identity == product);
         }
-
     }
 }
