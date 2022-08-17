@@ -18,9 +18,7 @@ def assert_torch_installed():
         torch_pkg = pkg_resources.get_distribution("torch")
     except pkg_resources.DistributionNotFound:
         pass
-    assert torch_pkg is not None and LooseVersion(torch_pkg.version) >= LooseVersion(
-        "1.6.0"
-    ), (
+    assert torch_pkg is not None, (  # and LooseVersion(torch_pkg.version) >= LooseVersion("1.6.0")
         "A compatible version of PyTorch was not installed. Please visit the PyTorch homepage "
         + "(https://pytorch.org/get-started/locally/) and follow the instructions to install. "
         + "Version 1.6.0 and later are supported."
@@ -83,6 +81,7 @@ os.environ["KMP_BLOCKTIME"] = "0"
 
 class DeviceMode(TorchFunctionMode):
     def __init__(self, device):
+        super().__init__()
         self.device = torch.device(device)
 
     def __torch_function__(self, func, types, args=(), kwargs=None):
@@ -114,7 +113,7 @@ def set_torch_config(torch_settings: TorchSettings) -> None:
 
     if _device.type == "mps":
         global _device_mode
-        _device_mode = DeviceMode.push(_device)
+        _device_mode = DeviceMode(_device)
         _device_mode.__enter__()
 
     if _device.type == "cuda":

@@ -44,7 +44,7 @@ def register_stats_writer_plugins(run_options: RunOptions) -> List[StatsWriter]:
     and evaluates them, and returns the list of all the StatsWriter implementations.
     """
     all_stats_writers: List[StatsWriter] = []
-    if ML_AGENTS_STATS_WRITER not in importlib_metadata.entry_points():
+    if ML_AGENTS_STATS_WRITER not in importlib_metadata.entry_points().groups:
         logger.warning(
             f"Unable to find any entry points for {ML_AGENTS_STATS_WRITER}, even the default ones. "
             "Uninstalling and reinstalling ml-agents via pip should resolve. "
@@ -52,7 +52,7 @@ def register_stats_writer_plugins(run_options: RunOptions) -> List[StatsWriter]:
         )
         return get_default_stats_writers(run_options)
 
-    entry_points = importlib_metadata.entry_points()[ML_AGENTS_STATS_WRITER]
+    entry_points = importlib_metadata.entry_points().select(group=ML_AGENTS_STATS_WRITER)
 
     for entry_point in entry_points:
 

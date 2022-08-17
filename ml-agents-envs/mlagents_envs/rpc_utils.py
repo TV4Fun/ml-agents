@@ -373,7 +373,7 @@ def steps_from_proto(
 
     max_step = np.array(
         [agent_info.max_step_reached for agent_info in terminal_agent_info_list],
-        dtype=np.bool,
+        dtype=bool,
     )
     decision_agent_id = np.array(
         [agent_info.id for agent_info in decision_agent_info_list], dtype=np.int32
