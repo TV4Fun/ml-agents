@@ -54,6 +54,6 @@ setup(
         "protobuf>=3.6",
         "pyyaml>=3.1.0",
     ],
-    python_requires=">=3.6.1",
+    python_requires=">=3.6.1,<3.10",
     cmdclass={"verify": VerifyVersionCommand},
 )

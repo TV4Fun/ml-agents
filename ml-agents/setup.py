@@ -79,7 +79,7 @@ setup(
         'pypiwin32==223;platform_system=="Windows"',
         "importlib_metadata; python_version<'3.8'",
     ],
-    python_requires=">=3.6.1",
+    python_requires=">=3.6.1,<3.10",
     entry_points={
         "console_scripts": [
             "mlagents-learn=mlagents.trainers.learn:main",
