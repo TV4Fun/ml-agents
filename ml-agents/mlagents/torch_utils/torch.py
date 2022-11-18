@@ -51,7 +51,7 @@ _DEVICE_CONSTRUCTOR = {
     torch.kaiser_window,
     torch.linspace,
     torch.logspace,
-    torch.nested_tensor,
+    torch.nested.nested_tensor,
     # torch.normal,
     torch.ones,
     torch.rand,
